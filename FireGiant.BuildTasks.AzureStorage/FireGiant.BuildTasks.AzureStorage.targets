@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="FireGiant.BuildTasks.AzureStorage.targets" company="FireGiant">
+    Copyright (c) 2014, FireGiant.
+    This software is released under BSD License.
+    The license and further copyright text can be found in the file
+    LICENSE.txt at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="GetBlobs" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
+  <UsingTask TaskName="GetContainers" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
+  <UsingTask TaskName="UploadBlobs" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
+
+  <Target Name="GetBlobs">
+    <GetBlobs StorageAccount="$(StorageAccount)"
+              StorageAuthentication="$(StorageAuthentication)"
+              StorageEmulator="$(StorageUseEmulator)"
+              Containers="@(Container)">
+      <Output TaskParameter="Blobs" ItemName="Blob" />
+    </GetBlobs>
+  </Target>
+
+  <Target Name="GetContainers">
+    <GetContainers StorageAccount="$(StorageAccount)"
+                   StorageAuthentication="$(StorageAuthentication)"
+                   StorageEmulator="$(StorageUseEmulator)">
+      <Output TaskParameter="Containers" ItemName="Container" />
+    </GetContainers>
+  </Target>
+
+  <Target Name="UploadBlobs">
+    <UploadBlobs StorageAccount="$(StorageAccount)"
+                 StorageAuthentication="$(StorageAuthentication)"
+                 StorageEmulator="$(StorageUseEmulator)"
+                 Container="$(UploadContainer)"
+                 Public="$(MakeUploadContainerPublic)"
+                 Blobs="@(UploadBlob)">
+      <Output TaskParameter="Uploaded" ItemName="UploadedBlob" />
+    </UploadBlobs>
+  </Target>
+
+</Project>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+  <copyright file="FireGiant.BuildTasks.AzureStorage.nuspec" company="FireGiant">
+    Copyright (c) 2014, FireGiant.
+    This software is released under BSD License.
+    The license and further copyright text can be found in the file
+    LICENSE.txt at the root directory of the distribution.
+  </copyright>
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>FireGiant.BuildTasks.AzureStorage</id>
+    <version>1.0.0.0</version>
+    <title>FireGiant Azure Storage MSBuild Tasks</title>
+    <authors>FireGiant</authors>
+    <owners>FireGiant</owners>
+    <licenseUrl>https://raw.github.com/firegiant/AzureStorageBuildTask/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/firegiant/AzureStorageBuildTask</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MSBuild Tasks to interact with Azure storage accounts.</description>
+    <releaseNotes>Initial release of FireGiant.BuildTasks.AzureStorage.</releaseNotes>
+    <copyright>Copyright (c) 2014, FireGiant</copyright>
+    <tags>azure storage msbuild</tags>
+  </metadata>
+
+  <files>
+    <file src="bin\$configuration$\tools\*.dll" target="tools\" />
+    <file src="bin\$configuration$\tools\*.targets" target="build\" />
+  </files>
+</package>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="FireGiant.BuildTasks.Azure.targets" />
+
+  <PropertyGroup>
+    <StorageAccount>put-storage-account-name-here-and-set-StorageUseEmulator-false</StorageAccount>
+    <StorageAuthentication>put-storage-authentication-key-here-and-set-StorageUseEmulator-false</StorageAuthentication>
+    <StorageUseEmulator>true</StorageUseEmulator>
+
+    <UploadContainer>test-uploads</UploadContainer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <UploadBlob Include="TestData\upload.txt" />
+    <UploadBlob Include="TestData\upload2.txt">
+      <BlobName>nested\upload2_renamed.txt</BlobName>
+    </UploadBlob>
+  </ItemGroup>
+
+  <Target Name="TestGetBlobs"
+          DependsOnTargets="GetBlobs">
+    <Message Importance="high" Text="Found blobs: %(Blob.Identity) in container: %(Blob.Container)" />
+  </Target>
+
+  <Target Name="TestGetContainers"
+          DependsOnTargets="GetContainers">
+    <Message Importance="high" Text="Found containers: @(Container)" />
+  </Target>
+
+  <Target Name="TestUploadBlobs"
+          DependsOnTargets="UploadBlobs">
+    <Message Importance="high" Text="Uploaded blobs: @(UploadedBlob) to container: %(Container)" />
+  </Target>
+</Project>
