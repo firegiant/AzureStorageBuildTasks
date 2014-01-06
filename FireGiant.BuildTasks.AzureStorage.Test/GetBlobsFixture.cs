@@ -7,6 +7,7 @@
 // </copyright>
 //---------------------------------------------------------------------------
 
+using System;
 using Xunit;
 
 namespace FireGiant.BuildTasks.AzureStorage.Test
@@ -23,7 +24,14 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
 
             Assert.True(result);
             Assert.Single(task.Blobs);
-            AssertExtensions.EndsWith("test/testblob.data", task.Blobs[0].ItemSpec);
+
+            var blob = task.Blobs[0];
+            AssertExtensions.EndsWith("test/testblob.data", blob.ItemSpec);
+            Assert.Equal(".data", blob.GetMetadata("Extension"));
+            Assert.Equal("testblob", blob.GetMetadata("Filename"));
+            Assert.Equal("/devstoreaccount1/test", blob.GetMetadata("Directory"));
+            Assert.Equal(String.Empty, blob.GetMetadata("RelativeDir"));
+            Assert.Equal("test", blob.GetMetadata("Container"));
         }
     }
 }

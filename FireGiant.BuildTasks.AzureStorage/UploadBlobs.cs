@@ -93,11 +93,9 @@ namespace FireGiant.BuildTasks.AzureStorage
             return true;
         }
 
-        private TaskItem CreateTaskItemFromBlob(CloudBlockBlob blob)
+        private ITaskItem CreateTaskItemFromBlob(CloudBlockBlob blob)
         {
-            TaskItem taskItem = new TaskItem(blob.Uri.AbsoluteUri);
-            taskItem.SetMetadata("Container", blob.Container.Name);
-
+            ITaskItem taskItem = new BlobTaskItem(blob.Uri, blob.Container.Name);
             return taskItem;
         }
 

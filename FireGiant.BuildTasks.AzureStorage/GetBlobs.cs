@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -64,11 +65,9 @@ namespace FireGiant.BuildTasks.AzureStorage
                          .SelectMany(c => c.ListBlobs(null, true));
         }
 
-        private TaskItem CreateTaskItemFromBlobItem(IListBlobItem b)
+        private ITaskItem CreateTaskItemFromBlobItem(IListBlobItem b)
         {
-            TaskItem taskItem = new TaskItem(b.Uri.AbsoluteUri);
-            taskItem.SetMetadata("Container", b.Container.Name);
-
+            ITaskItem taskItem = new BlobTaskItem(b.Uri, b.Container.Name);
             return taskItem;
         }
     }

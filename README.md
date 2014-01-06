@@ -40,6 +40,16 @@ Outputs:
 
 `%(Blob.Container)` - container of the found blob.
 
+`%(Blob.Directory)` - directory (including the container name) of the found blob.
+
+`%(Blob.Extension)` - extension (including dot) of the found blob.
+
+`%(Blob.Filename)` - filename (without extension) of the found blob.
+
+`%(Blob.Relative)` - directory (excluding the container name) of the found blob.
+
+`%(Blob.RootDir)` - URL to the storage account.
+
 ## GetContainers
 
 Inputs:
@@ -76,4 +86,14 @@ Outputs:
 
 `@(UploadedBlob)` - full URL to each uploaded blob.
 
-`%(UploadedBlob.Container)` - container of the uploaded blob.
+`%(UploadedBlob.Container)` - container of the found blob.
+
+`%(UploadedBlob.Directory)` - directory (including the container name) of the found blob.
+
+`%(UploadedBlob.Extension)` - extension (including dot) of the found blob.
+
+`%(UploadedBlob.Filename)` - filename (without extension) of the found blob.
+
+`%(UploadedBlob.Relative)` - directory (excluding the container name) of the found blob.
+
+`%(UploadedBlob.RootDir)` - URL to the storage account.

@@ -7,6 +7,7 @@
 // </copyright>
 //---------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using Microsoft.Build.Utilities;
 using Xunit;
@@ -29,8 +30,15 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
             var result = task.Execute();
 
             Assert.True(result);
-            Assert.Equal(1, task.Uploaded.Length);
-            AssertExtensions.EndsWith("/test-upload/upload.txt", task.Uploaded[0].ItemSpec);
+            Assert.Single(task.Uploaded);
+
+            var uploaded = task.Uploaded[0];
+            AssertExtensions.EndsWith("/test-upload/upload.txt", uploaded.ItemSpec);
+            Assert.Equal(".txt", uploaded.GetMetadata("Extension"));
+            Assert.Equal("upload", uploaded.GetMetadata("Filename"));
+            Assert.Equal("/devstoreaccount1/test-upload", uploaded.GetMetadata("Directory"));
+            Assert.Equal(String.Empty, uploaded.GetMetadata("RelativeDir"));
+            Assert.Equal(UploadBlobsFixture.TestContainerName, uploaded.GetMetadata("Container"));
         }
 
         [Fact]
@@ -46,8 +54,15 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
             var result = task.Execute();
 
             Assert.True(result);
-            Assert.Equal(1, task.Uploaded.Length);
-            AssertExtensions.EndsWith("/test-upload/very/nested/renamed_upload.txt", task.Uploaded[0].ItemSpec);
+            Assert.Single(task.Uploaded);
+
+            var uploaded = task.Uploaded[0];
+            AssertExtensions.EndsWith("/test-upload/very/nested/renamed_upload.txt", uploaded.ItemSpec);
+            Assert.Equal(".txt", uploaded.GetMetadata("Extension"));
+            Assert.Equal("renamed_upload", uploaded.GetMetadata("Filename"));
+            Assert.Equal("/devstoreaccount1/test-upload/very/nested", uploaded.GetMetadata("Directory"));
+            Assert.Equal("very/nested", uploaded.GetMetadata("RelativeDir"));
+            Assert.Equal(UploadBlobsFixture.TestContainerName, uploaded.GetMetadata("Container"));
         }
 
         [Fact]
@@ -66,8 +81,22 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
 
             Assert.True(result);
             Assert.Equal(2, task.Uploaded.Length);
-            AssertExtensions.EndsWith("/test-upload/upload.txt", task.Uploaded[0].ItemSpec);
-            AssertExtensions.EndsWith("/test-upload/upload2.txt", task.Uploaded[1].ItemSpec);
+
+            var uploaded = task.Uploaded[0];
+            AssertExtensions.EndsWith("/test-upload/upload.txt", uploaded.ItemSpec);
+            Assert.Equal(".txt", uploaded.GetMetadata("Extension"));
+            Assert.Equal("upload", uploaded.GetMetadata("Filename"));
+            Assert.Equal("/devstoreaccount1/test-upload", uploaded.GetMetadata("Directory"));
+            Assert.Equal(String.Empty, uploaded.GetMetadata("RelativeDir"));
+            Assert.Equal(UploadBlobsFixture.TestContainerName, uploaded.GetMetadata("Container"));
+
+            uploaded = task.Uploaded[1];
+            AssertExtensions.EndsWith("/test-upload/upload2.txt", uploaded.ItemSpec);
+            Assert.Equal(".txt", uploaded.GetMetadata("Extension"));
+            Assert.Equal("upload2", uploaded.GetMetadata("Filename"));
+            Assert.Equal("/devstoreaccount1/test-upload", uploaded.GetMetadata("Directory"));
+            Assert.Equal(String.Empty, uploaded.GetMetadata("RelativeDir"));
+            Assert.Equal(UploadBlobsFixture.TestContainerName, uploaded.GetMetadata("Container"));
         }
     }
 }
