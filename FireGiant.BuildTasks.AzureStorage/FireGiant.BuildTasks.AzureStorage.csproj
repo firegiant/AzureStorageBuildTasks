@@ -84,12 +84,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
+  <!--
+    Build the Nuget package after the build.
   -->
-  <Target Name="GatherAfterBuildInputsOutputs">
+  <Target Name="AfterBuild" DependsOnTargets="_GatherAfterBuildInputsOutputs" Inputs="@(AfterBuildInput)" Outputs="@(AfterBuildOutput)">
+    <MakeDir Directories="$(OutputPath)package" />
+    <Exec Command="nuget.exe pack FireGiant.BuildTasks.AzureStorage.nuspec -Properties Configuration=$(Configuration) -NoPackageAnalysis -OutputDirectory $(OutputPath)package" />
+    <ItemGroup>
+      <NugetPackage Include="$(OutputPath)package\FireGiant.BuildTasks.AzureStorage.*.nupkg" />
+    </ItemGroup>
+  </Target>
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(OutputPath)package" />
+  </Target>
+  <Target Name="_GatherAfterBuildInputsOutputs">
     <ItemGroup>
       <AfterBuildInput Include="FireGiant.BuildTasks.AzureStorage.nuspec" />
       <AfterBuildInput Include="$(OutputPath)*.dll" />
@@ -98,11 +106,13 @@
       <AfterBuildOutput Include="$(OutputPath)package\FireGiant.BuildTasks.AzureStorage.*.nupkg" />
     </ItemGroup>
   </Target>
-  <Target Name="AfterBuild" DependsOnTargets="GatherAfterBuildInputsOutputs" Inputs="@(AfterBuildInput)" Outputs="@(AfterBuildOutput)">
-    <MakeDir Directories="$(OutputPath)package" />
-    <Exec Command="nuget.exe pack FireGiant.BuildTasks.AzureStorage.nuspec -Properties Configuration=$(Configuration) -NoPackageAnalysis -OutputDirectory $(OutputPath)package" />
+  <!--
+    Publish package targets.
+  -->
+  <Target Name="PublishPackage" DependsOnTargets="_OnlyPublishReleaseBuild;Build">
+    <Exec Command="nuget.exe push @(NugetPackage) $(PublishApiKey)" />
   </Target>
-  <Target Name="AfterClean">
-    <RemoveDir Directories="$(OutputPath)package" />
+  <Target Name="_OnlyPublishReleaseBuild" Condition=" '$(Configuration)'!='Release' ">
+    <Error Text="Only publish the release build." />
   </Target>
 </Project>
