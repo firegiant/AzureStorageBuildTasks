@@ -14,8 +14,8 @@
     <title>FireGiant Azure Storage MSBuild Tasks</title>
     <authors>FireGiant</authors>
     <owners>FireGiant</owners>
-    <licenseUrl>https://raw.github.com/firegiant/AzureStorageBuildTask/master/LICENSE.txt</licenseUrl>
-    <projectUrl>https://github.com/firegiant/AzureStorageBuildTask</projectUrl>
+    <licenseUrl>https://raw.github.com/firegiant/AzureStorageBuildTasks/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/firegiant/AzureStorageBuildTasks</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>MSBuild Tasks to interact with Azure storage accounts.</description>
     <releaseNotes>Initial release of FireGiant.BuildTasks.AzureStorage.</releaseNotes>
