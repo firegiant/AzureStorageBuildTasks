@@ -7,6 +7,7 @@
 // </copyright>
 //---------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,9 +18,9 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
 {
     public static class TestHelpers
     {
-        public static string RootPath()
+        public static string RootPath(string additional = null)
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(8));
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(8)), additional ?? String.Empty);
         }
 
         public static void EnsureNoContainers()
@@ -47,6 +48,7 @@ namespace FireGiant.BuildTasks.AzureStorage.Test
                 var blob = container.GetBlockBlobReference(n);
                 return blob.UploadFromByteArrayAsync(new byte[] { 1, 2, 3, 4, }, 0, 4);
             }).ToArray();
+
             Task.WaitAll(uploads);
         }
     }
