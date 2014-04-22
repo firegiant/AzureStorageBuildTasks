@@ -24,7 +24,7 @@
   </metadata>
 
   <files>
-    <file src="bin\$configuration$\tools\*.dll" target="tools\" />
+    <file src="bin\$configuration$\tools\**\*.dll" target="tools\" />
     <file src="bin\$configuration$\tools\*.targets" target="build\" />
   </files>
 </package>
