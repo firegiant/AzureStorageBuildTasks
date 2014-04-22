@@ -10,6 +10,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="GetBlobs" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
   <UsingTask TaskName="GetContainers" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
+  <UsingTask TaskName="DownloadBlobs" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
   <UsingTask TaskName="UploadBlobs" AssemblyFile="..\tools\FireGiant.BuildTasks.AzureStorage.dll" />
 
   <Target Name="GetBlobs">
@@ -27,6 +28,17 @@
                    StorageEmulator="$(StorageUseEmulator)">
       <Output TaskParameter="Containers" ItemName="Container" />
     </GetContainers>
+  </Target>
+
+  <Target Name="DowloadBlobs">
+    <DownloadBlobs StorageAccount="$(StorageAccount)"
+                 StorageAuthentication="$(StorageAuthentication)"
+                 StorageEmulator="$(StorageUseEmulator)"
+                 Container="$(DownloadContainer)"
+                 Folder="$(DownloadFolder)"
+                 Blobs="@(DownloadBlob)">
+      <Output TaskParameter="Downloaded" ItemName="DownloadedBlob" />
+    </DownloadBlobs>
   </Target>
 
   <Target Name="UploadBlobs">

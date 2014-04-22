@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BaseStorageTask.cs" />
+    <Compile Include="DownloadBlobs.cs" />
     <Compile Include="UploadBlobs.cs" />
     <Compile Include="GetBlobs.cs" />
     <Compile Include="GetContainers.cs" />

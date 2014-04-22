@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="AssertExtensions.cs" />
     <Compile Include="TestHelpers.cs" />
+    <Compile Include="DownloadBlobsFixture.cs" />
     <Compile Include="UploadBlobsFixture.cs" />
     <Compile Include="GetBlobsFixture.cs" />
     <Compile Include="GetContainersFixture.cs" />

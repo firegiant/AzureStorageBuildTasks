@@ -64,6 +64,42 @@ Outputs:
 
 `@(Container)` - full URL to container found in the storage account.
 
+## DownloadBlobs
+
+Inputs:
+
+`$(StorageAccount)` - name of storage account that houses the container to download blobs from.
+
+`$(StorageAuthentication)` - authorization key to access the storage account.
+
+`$(StorageUseEmulator)` - set to true to use the local Azure storage emulator. This will override the `$(StorageAccount)`. Only useful for testing purposes.
+
+`$(DownloadContainer)` - container to download blobs from.
+
+`$(DownloadFolder)` - local path where blobs are downloaded to. If this is not provided, all `@(DownloadBlob)` items must have `%(LocalPath)` metadata that resolves to a full path.
+
+`@(DownloadBlob)` - name of blob in container to download. If no blobs are provided, all blobs in the container are downloaded.
+
+`%(DownloadBlob.LocalPath)` - metadata on the `DownloadBlob` item to override where the blob is downloaded. By default, the name of the blob in the container is used.
+
+Outputs:
+
+`@(DownloadedBlob)` - path to each downloaded blob.
+
+`%(UploadedBlob.Blob)` - name in storage of the downloaded blob.
+
+`%(UploadedBlob.BlobUrl)` - full url in storage of the downloaded blob.
+
+`%(UploadedBlob.Container)` - container of the downloaded blob.
+
+`%(UploadedBlob.Directory)` - directory (including the container name) of the downloaded blob.
+
+`%(UploadedBlob.Extension)` - extension (including dot) of the downloaded blob.
+
+`%(UploadedBlob.Filename)` - filename (without extension) of the downloaded blob.
+
+`%(UploadedBlob.Relative)` - directory (excluding the container name) of the downloaded blob.
+
 ## UploadBlobs
 
 Inputs:
