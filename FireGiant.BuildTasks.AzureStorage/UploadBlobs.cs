@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Tasks = System.Threading.Tasks;
@@ -59,9 +58,9 @@ namespace FireGiant.BuildTasks.AzureStorage
                 return false;
             }
 
-            CloudBlobClient client = account.CreateCloudBlobClient();
+            var client = account.CreateCloudBlobClient();
 
-            CloudBlobContainer container = client.GetContainerReference(this.Container.ToLowerInvariant());
+            var container = client.GetContainerReference(this.Container.ToLowerInvariant());
             container.CreateIfNotExists();
 
             if (this.Public)
@@ -69,10 +68,12 @@ namespace FireGiant.BuildTasks.AzureStorage
                 container.SetPermissions(new BlobContainerPermissions() { PublicAccess = BlobContainerPublicAccessType.Blob });
             }
 
-            List<UploadBlobTask> uploads = new List<UploadBlobTask>();
-            foreach (ITaskItem blobItem in this.Blobs)
+            var uploads = new List<UploadBlobTask>();
+
+            foreach (var blobItem in this.Blobs)
             {
-                string blobName = blobItem.GetMetadata("BlobName");
+                var blobName = blobItem.GetMetadata("BlobName");
+
                 if (String.IsNullOrEmpty(blobName))
                 {
                     blobName = Path.GetFileName(blobItem.ItemSpec);
@@ -80,7 +81,7 @@ namespace FireGiant.BuildTasks.AzureStorage
 
                 blobName = blobName.ToLowerInvariant().Replace('\\', '/');
 
-                UploadBlobTask upload = new UploadBlobTask();
+                var upload = new UploadBlobTask();
                 upload.Blob = container.GetBlockBlobReference(blobName);
                 upload.Task = upload.Blob.UploadFromFileAsync(blobItem.ItemSpec, FileMode.Open);
 
@@ -95,7 +96,7 @@ namespace FireGiant.BuildTasks.AzureStorage
 
         private ITaskItem CreateTaskItemFromBlob(CloudBlockBlob blob)
         {
-            ITaskItem taskItem = new BlobTaskItem(blob.Uri, blob.Container.Name);
+            var taskItem = new BlobTaskItem(blob.Uri, blob.Container.Name);
             return taskItem;
         }
 

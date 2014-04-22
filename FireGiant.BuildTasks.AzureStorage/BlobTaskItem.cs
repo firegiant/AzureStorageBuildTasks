@@ -29,9 +29,9 @@ namespace FireGiant.BuildTasks.AzureStorage
         /// <param name="container">Container the blob is a member of.</param>
         public BlobTaskItem(Uri uri, string container)
         {
-            string absolutePath = uri.AbsolutePath;
-            string directory = Path.GetDirectoryName(absolutePath).Replace('\\', '/');
-            string relativeTo = directory.StartsWith("/devstoreaccount1/") ? "/devstoreaccount1/" + container : "/" + container;
+            var absolutePath = uri.AbsolutePath;
+            var directory = Path.GetDirectoryName(absolutePath).Replace('\\', '/');
+            var relativeTo = directory.StartsWith("/devstoreaccount1/") ? "/devstoreaccount1/" + container : "/" + container;
 
             this.ItemSpec = uri.AbsoluteUri;
             this.SetMetadata("Directory", directory);
@@ -57,7 +57,8 @@ namespace FireGiant.BuildTasks.AzureStorage
 
         public string GetMetadata(string metadataName)
         {
-            string value = String.Empty;
+            var value = String.Empty;
+
             this.metadata.TryGetValue(metadataName, out value);
             return value;
         }
