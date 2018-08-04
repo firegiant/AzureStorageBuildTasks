@@ -30,7 +30,7 @@
     </GetContainers>
   </Target>
 
-  <Target Name="DowloadBlobs">
+  <Target Name="DownloadBlobs">
     <DownloadBlobs StorageAccount="$(StorageAccount)"
                  StorageAuthentication="$(StorageAuthentication)"
                  StorageEmulator="$(StorageUseEmulator)"
